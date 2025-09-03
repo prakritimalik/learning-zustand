@@ -1,7 +1,9 @@
 
 import { create } from 'zustand'
+import { persist} from 'zustand/middleware'
 
-const useTodoStore = create((set) => ({
+const useTodoStore = create(persist(
+    (set) => ({
     todos: [],
     addTodo: (text) => set((state) => ({
         todos: [...state.todos, { id: Date.now(), title: text, completed: false }]
@@ -16,6 +18,8 @@ const useTodoStore = create((set) => ({
     clearTodo: () => set(state => ({ todos: [] }))
 
 
-})
-)
+}),
+{name: 'todo-storage'}
+
+))
 export default useTodoStore
